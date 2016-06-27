@@ -46,7 +46,8 @@ Tag | Usage | Description
 --- | ---   | -----------
 `<p>` | `<p>...</p>` | Wrapper for text, adds a new line to the end
 `<br>` | `<br>` | Adds a newline
-`<hr>` | `<hr>` 
+`<hr>` | `<hr>` | Adds a horizontal rule
+`<ul`> | `<ul><li>Item A</li><li>Item B</li></ul>` | Adds an unordered list with bullet points
 
 ##### Colors
 
