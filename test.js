@@ -47,6 +47,6 @@ test('handles ul', t => {
 test('handles br', t => {
   t.plan(1)
 
-  const out = shtml`<span>Foo<br></span>`
-  t.is(out, 'Foo\n')
+  const out = shtml`<span><red>Foo</red><br></span>`
+  t.true(out.includes('\n'))
 })
