@@ -17,9 +17,17 @@ npm install --save shtml
 const shtml = require('shtml')
 
 console.log(shtml`
-  <p>Hello, <i color="green">world</i>!</p>
-  <u>Pretty neat!</u><br>
-  <cyan>&lt;3</cyan>
+  <ul>
+    <li>Item A</li>
+    <li>Item B</li>
+  </ul>
+`)
+
+console.log(shtml`
+  <span>
+    <rainbow>Hello, world!</rainbow><br>
+    <u>This is pretty neat.</u>
+  </span>
 `)
 ```
 

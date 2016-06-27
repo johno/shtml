@@ -8,7 +8,18 @@ test('shtml does something awesome', t => {
     <p>
       <red>Yay!</red><br><br>
       <rainbow>Woooo!</rainbow>
+      <ul>
+        <li>Item A</li>
+        <li>Item B</li>
+      </ul>
     </p>
+  `)
+
+  console.log(shtml`
+    <ul>
+      <li>Item A</li>
+      <li>Item B</li>
+    </ul>
   `)
   t.true(true)
 })

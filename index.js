@@ -1,9 +1,11 @@
 const hx = require('hyperx')
 const chalk = require('chalk')
 const rainbow = require('chalk-rainbow')
+const figures = require('figures')
 
 module.exports = function shtml (html) {
-  return createAndTransformTree(html)
+  const tree = createAndTransformTree(html)
+  return tree
 }
 
 const createAndTransformTree = hx((tagName, attrs, children) => {
@@ -11,6 +13,10 @@ const createAndTransformTree = hx((tagName, attrs, children) => {
     return rainbow(children.toString())
   } else if (tagName === 'p') {
     return children.join('') + '\n'
+  } else if (tagName === 'ul') {
+    return children.join('') + '\n'
+  } else if (tagName === 'li') {
+    return `${figures.bullet} ${children.toString()}`
   } else if (tagName === 'br') {
     return '\n'
   } else if (colors[tagName]) {
