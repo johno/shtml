@@ -38,7 +38,10 @@ Tag | Usage | Description
 `<p>` | `<p>...</p>` | Wrapper for text, adds a new line to the end
 `<br>` | `<br>` | Adds a newline
 `<hr>` | `<hr>` | Adds a horizontal rule
-`<ul>` | `<ul><li>Item A</li><li>Item B</li></ul>` | Adds an unordered list with bullet points
+`<ul>` | `<ul>
+            <li>Item A</li>
+            <li>Item B</li>
+         </ul>` | Adds an unordered list with bullet points
 `<color>` | `<red>...</red>` | Color the text, see the [supported colors](#colors) below
 `<bgcolor>` | `<bgcyan>...</bgcyan>` | Color the background of text, see the [supported colors](#colors) below
 `<rainbow>` | `<rainbow>...</rainbow>` | Get rainbow colored text
