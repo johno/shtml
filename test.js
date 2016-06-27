@@ -5,7 +5,10 @@ test('shtml does something awesome', t => {
   t.plan(1)
 
   console.log(shtml`
-    <red>Yay!</red>
+    <p>
+      <red>Yay!</red><br><br>
+      <rainbow>Woooo!</rainbow>
+    </p>
   `)
   t.true(true)
 })
