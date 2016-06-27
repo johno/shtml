@@ -18,15 +18,15 @@ const shtml = require('shtml')
 
 console.log(shtml`
   <ul>
-    <li>Item A</li>
-    <li>Item B</li>
+    <li>Item <red>A</red></li>
+    <li>Item <rainbow>B</rainbow></li>
   </ul>
 `)
 
 console.log(shtml`
   <span>
     <rainbow>Hello, world!</rainbow><br>
-    <u>This is pretty neat.</u>
+    <underline>This is pretty neat.</underline>
   </span>
 `)
 ```
