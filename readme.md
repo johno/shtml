@@ -31,6 +31,17 @@ console.log(shtml`
 `)
 ```
 
+## Tags to support
+
+- `p`
+- `br`
+- `hr`
+- `ul`
+- `ol`
+- `colors`
+- `bgcolors`
+- `rainbow`
+
 ## License
 
 MIT
