@@ -4,5 +4,8 @@ import shtml from './'
 test('shtml does something awesome', t => {
   t.plan(1)
 
-  t.true(shtml())
+  console.log(shtml`
+    <red>Yay!</red>
+  `)
+  t.true(true)
 })
