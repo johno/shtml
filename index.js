@@ -2,6 +2,11 @@ const hx = require('hyperx')
 const chalk = require('chalk')
 const rainbow = require('chalk-rainbow')
 const figures = require('figures')
+const windowSize = require('window-size')
+const repeat = require('repeat-string')
+const isPresent = require('is-present')
+const isWhitespace = require('is-whitespace')
+const isNewline = require('is-newline')
 
 module.exports = function shtml (html) {
   const tree = createAndTransformTree(html)
@@ -9,7 +14,7 @@ module.exports = function shtml (html) {
 }
 
 const createAndTransformTree = hx((tagName, attrs, children) => {
-  children = (children || []).join('')
+  children = (children || []).filter(significantChild).join('')
 
   switch (tagName) {
     case 'rainbow':
@@ -24,6 +29,9 @@ const createAndTransformTree = hx((tagName, attrs, children) => {
 
     case 'br':
       return '\n'
+
+    case 'hr':
+      return repeat('_', windowSize.width)
 
     default:
       return chalkTransformations(tagName, children)
@@ -76,3 +84,10 @@ const modifiers = {
   hidden: true,
   strikethrough: true
 }
+
+// We want to ignore any whitespace
+// that isn't explicity added through
+// a tag
+const significantChild = str => (
+  isPresent(str) || isWhitespace(str) && isNewline(str)
+)

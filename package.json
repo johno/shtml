@@ -18,7 +18,11 @@
     "chalk-rainbow": "^1.0.0",
     "figures": "^1.7.0",
     "hyperx": "^2.0.4",
-    "is-present": "^1.0.0"
+    "is-newline": "^1.0.0",
+    "is-present": "^1.0.0",
+    "is-whitespace": "^0.3.0",
+    "repeat-string": "^1.5.4",
+    "window-size": "^0.2.0"
   },
   "devDependencies": {
     "ava": "*"
