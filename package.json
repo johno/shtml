@@ -1,0 +1,24 @@
+{
+  "name": "shtml",
+  "description": "Style shell output in an html-like fashion",
+  "author": "John Otander",
+  "version": "0.1.0",
+  "main": "index.js",
+  "files": [
+    "index.js"
+  ],
+  "scripts": {
+    "test": "ava"
+  },
+  "repository": "johnotander/shtml",
+  "keywords": [],
+  "license": "MIT",
+  "dependencies": {
+    "chalk": "^1.1.3",
+    "hyperx": "^2.0.4",
+    "is-present": "^1.0.0"
+  },
+  "devDependencies": {
+    "ava": "*"
+  }
+}
