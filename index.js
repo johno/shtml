@@ -9,22 +9,26 @@ module.exports = function shtml (html) {
 }
 
 const createAndTransformTree = hx((tagName, attrs, children) => {
+  children = (children || []).join('')
+
   if (tagName === 'rainbow') {
-    return rainbow(children.toString())
+    return rainbow(children)
   } else if (tagName === 'p') {
-    return children.join('') + '\n'
+    return children + '\n'
   } else if (tagName === 'ul') {
-    return children.join('') + '\n'
+    return children + '\n'
   } else if (tagName === 'li') {
-    return `${figures.bullet} ${children.join('')}`
+    return `${figures.bullet} ${children}`
   } else if (tagName === 'br') {
     return '\n'
   } else if (colors[tagName]) {
-    return chalk[tagName](children.join(''))
+    return chalk[tagName](children)
   } else if (bgColors[tagName]) {
-    return chalk[tagName](children.join(''))
+    return chalk[tagName](children)
+  } else if (modifiers[tagName]) {
+    return chalk[tagName](children)
   } else {
-    return children.toString()
+    return children
   }
 })
 
