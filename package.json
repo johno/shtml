@@ -2,7 +2,7 @@
   "name": "shtml",
   "description": "Style shell output in an html-like fashion",
   "author": "John Otander",
-  "version": "0.1.0",
+  "version": "0.0.1-beta.1",
   "main": "index.js",
   "files": [
     "index.js"
