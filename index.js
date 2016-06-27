@@ -11,17 +11,27 @@ module.exports = function shtml (html) {
 const createAndTransformTree = hx((tagName, attrs, children) => {
   children = (children || []).join('')
 
-  if (tagName === 'rainbow') {
-    return rainbow(children)
-  } else if (tagName === 'p') {
-    return children + '\n'
-  } else if (tagName === 'ul') {
-    return children + '\n'
-  } else if (tagName === 'li') {
-    return `${figures.bullet} ${children}`
-  } else if (tagName === 'br') {
-    return '\n'
-  } else if (colors[tagName]) {
+  switch (tagName) {
+    case 'rainbow':
+      return rainbow(children)
+
+    case 'p':
+    case 'ul':
+      return `${children}\n`
+
+    case 'li':
+      return `${figures.bullet} ${children}`
+
+    case 'br':
+      return '\n'
+
+    default:
+      return chalkTransformations(tagName, children)
+  }
+})
+
+const chalkTransformations = (tagName, children) => {
+  if (colors[tagName]) {
     return chalk[tagName](children)
   } else if (bgColors[tagName]) {
     return chalk[tagName](children)
@@ -30,7 +40,7 @@ const createAndTransformTree = hx((tagName, attrs, children) => {
   } else {
     return children
   }
-})
+}
 
 const colors = {
   black: true,
