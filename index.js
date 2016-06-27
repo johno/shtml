@@ -4,49 +4,40 @@ const rainbow = require('chalk-rainbow')
 const figures = require('figures')
 const windowSize = require('window-size')
 const repeat = require('repeat-string')
+const condenseWhitespace = require('condense-whitespace')
 const isPresent = require('is-present')
 const isWhitespace = require('is-whitespace')
 const isNewline = require('is-newline')
 
 module.exports = function shtml (html) {
   const tree = createAndTransformTree(html)
-  return tree
+  console.log(tree.children)
+  const cliDom = tree.children.map(stringifyNode).join('')
+  return cliDom
 }
 
 const createAndTransformTree = hx((tagName, attrs, children) => {
-  children = (children || []).filter(significantChild).join('')
+  const node = { tagName, attrs, children }
 
   switch (tagName) {
     case 'rainbow':
-      return rainbow(children)
-
-    case 'p':
-    case 'ul':
-      return `${children}\n`
-
-    case 'li':
-      return `${figures.bullet} ${children}`
-
-    case 'br':
-      return '\n'
-
-    case 'hr':
-      return repeat('_', windowSize.width)
+      node.textTransform = rainbow
+      break
 
     default:
-      return chalkTransformations(tagName, children)
+      node.textTransform = chalkTransformations(tagName)
   }
+
+  return node
 })
 
 const chalkTransformations = (tagName, children) => {
   if (colors[tagName]) {
-    return chalk[tagName](children)
+    return chalk[tagName]
   } else if (bgColors[tagName]) {
-    return chalk[tagName](children)
+    return chalk[tagName]
   } else if (modifiers[tagName]) {
-    return chalk[tagName](children)
-  } else {
-    return children
+    return chalk[tagName]
   }
 }
 
@@ -75,19 +66,49 @@ const bgColors = {
 }
 
 const modifiers = {
-  reset: true,
   bold: true,
   dim: true,
   italic: true,
   underline: true,
-  inverse: true,
   hidden: true,
   strikethrough: true
 }
 
-// We want to ignore any whitespace
-// that isn't explicity added through
-// a tag
-const significantChild = str => (
-  isPresent(str) || isWhitespace(str) && isNewline(str)
-)
+const stringifyNode = nodeOrString => {
+  if (typeof nodeOrString === 'string') {
+    return nodeOrString
+  }
+
+  const node = nodeOrString
+
+  if (isPresent(node.children)) {
+    node.children = node.children
+                      .map(stringifyNode)
+  }
+
+  if (node.tagName === 'br') {
+    node.text = '\n'
+  }
+
+  if (node.tagName === 'hr') {
+    node.text = repeat('_', windowSize.width)
+  }
+
+  let str = node.text || (node.children || []).map(c => c.trim()).join(' ')
+  console.log('####')
+  console.log(node)
+  console.log(node.children)
+  console.log(str)
+  console.log('####')
+
+  if (node.textTransform) {
+    str = node.textTransform(str || node.text)
+    console.log('transforming')
+  }
+
+  console.log('####')
+  console.log(str)
+  console.log('####')
+
+  return str
+}
