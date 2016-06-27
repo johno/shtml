@@ -1,3 +1,5 @@
+'use strict'
+
 const hx = require('hyperx')
 const chalk = require('chalk')
 const rainbow = require('chalk-rainbow')
@@ -11,9 +13,8 @@ const isNewline = require('is-newline')
 
 module.exports = function shtml (html) {
   const tree = createAndTransformTree(html)
-  console.log(tree.children)
-  const cliDom = tree.children.map(stringifyNode).join('')
-  return cliDom
+  const treeWithoutWrapperStrings = tree.children.filter(c => typeof c !== 'string')
+  return treeWithoutWrapperStrings.map(stringifyNode).join('')
 }
 
 const createAndTransformTree = hx((tagName, attrs, children) => {
@@ -94,21 +95,15 @@ const stringifyNode = nodeOrString => {
     node.text = repeat('_', windowSize.width)
   }
 
-  let str = node.text || (node.children || []).map(c => c.trim()).join(' ')
-  console.log('####')
-  console.log(node)
-  console.log(node.children)
-  console.log(str)
-  console.log('####')
+  let str = node.text || (node.children || []).join(' ')
+
+  if (node.tagName === 'li') {
+    str = `${figures.bullet} ${str}`
+  }
 
   if (node.textTransform) {
     str = node.textTransform(str || node.text)
-    console.log('transforming')
   }
-
-  console.log('####')
-  console.log(str)
-  console.log('####')
 
   return str
 }
