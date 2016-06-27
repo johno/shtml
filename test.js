@@ -9,7 +9,7 @@ test('shtml does something awesome', t => {
       <red>Yay!</red><br><br>
       <rainbow>Woooo!</rainbow>
       <ul>
-        <li>Item A</li>
+        <li>Item <red>A</red></li>
         <li>Item B</li>
       </ul>
     </p>

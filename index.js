@@ -16,13 +16,13 @@ const createAndTransformTree = hx((tagName, attrs, children) => {
   } else if (tagName === 'ul') {
     return children.join('') + '\n'
   } else if (tagName === 'li') {
-    return `${figures.bullet} ${children.toString()}`
+    return `${figures.bullet} ${children.join('')}`
   } else if (tagName === 'br') {
     return '\n'
   } else if (colors[tagName]) {
-    return chalk[tagName](children)
+    return chalk[tagName](children.join(''))
   } else if (bgColors[tagName]) {
-    return chalk[tagName](children)
+    return chalk[tagName](children.join(''))
   } else {
     return children.toString()
   }
