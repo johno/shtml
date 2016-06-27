@@ -42,6 +42,24 @@ console.log(shtml`
 - `bgcolors`
 - `rainbow`
 
+Tag | Usage | Description
+--- | ---   | -----------
+`<p>` | `<p>...</p>` | Wrapper for text, adds a new line to the end
+`<br>` | `<br>` | Adds a newline
+`<hr>` | `<hr>` 
+
+##### Colors
+
+- black
+- red
+- green
+- yellow
+- blue
+- magenta
+- cyan
+- white
+- gray
+
 ## License
 
 MIT
