@@ -2,6 +2,22 @@ import test from 'ava'
 import figures from 'figures'
 import shtml from './'
 
+test('templates correctly', t => {
+  t.plan(1)
+
+  const v = 'foo'
+  const out = shtml`
+    <p>
+      <red>
+        ${v}<br>
+        <bgBlue>bar</bgBlue>
+      </red>
+    </p>
+  `
+
+  t.true(out.includes(v))
+})
+
 test('handles colors', t => {
   t.plan(2)
 

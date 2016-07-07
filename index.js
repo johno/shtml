@@ -7,38 +7,59 @@ const figures = require('figures')
 const windowSize = require('window-size')
 const repeat = require('repeat-string')
 const condenseWhitespace = require('condense-whitespace')
+const isBlank = require('is-blank')
 const isPresent = require('is-present')
 const isWhitespace = require('is-whitespace')
 const isNewline = require('is-newline')
 
-module.exports = function shtml (html) {
-  const tree = createAndTransformTree(html)
-  const treeWithoutWrapperStrings = tree.children.filter(c => typeof c !== 'string')
-  return treeWithoutWrapperStrings.map(stringifyNode).join('')
-}
+const newlineTags = ['p', 'br', 'li', 'ul']
 
-const createAndTransformTree = hx((tagName, attrs, children) => {
-  const node = { tagName, attrs, children }
+const create = (tagName, attrs, children) => {
+  var out = ''
 
-  switch (tagName) {
-    case 'rainbow':
-      node.textTransform = rainbow
-      break
+  const appendChildren = children => {
+    if (!Array.isArray(children)) return
 
-    default:
-      node.textTransform = chalkTransformations(tagName)
+    for (var i = 0; i < children.length; i++) {
+      var node = children[i]
+
+      if (isBlank(node) && !isNewline(node)) continue
+
+      if (Array.isArray(node)) {
+        appendChildren(node)
+        continue
+      }
+
+      if (typeof node === 'string') {
+        out = `${out}${node}`
+      }
+    }
   }
 
-  return node
-})
+  appendChildren(children)
+  const transform = getTransformation(tagName)
+  out = transform ? transform(out) : out
 
-const chalkTransformations = (tagName, children) => {
+  if (tagName === 'li') {
+    out = `${figures.bullet} ${out}`
+  }
+
+  if (newlineTags.indexOf(tagName) >= 0) {
+    return `${out}\n`
+  } else {
+    return out
+  }
+}
+
+const getTransformation = (tagName) => {
   if (colors[tagName]) {
     return chalk[tagName]
   } else if (bgColors[tagName]) {
     return chalk[tagName]
   } else if (modifiers[tagName]) {
     return chalk[tagName]
+  } else if (tagName === 'rainbow') {
+    return rainbow
   }
 }
 
@@ -75,35 +96,4 @@ const modifiers = {
   strikethrough: true
 }
 
-const stringifyNode = nodeOrString => {
-  if (typeof nodeOrString === 'string') {
-    return nodeOrString
-  }
-
-  const node = nodeOrString
-
-  if (isPresent(node.children)) {
-    node.children = node.children
-                      .map(stringifyNode)
-  }
-
-  if (node.tagName === 'br') {
-    node.text = '\n'
-  }
-
-  if (node.tagName === 'hr') {
-    node.text = repeat('_', windowSize.width)
-  }
-
-  let str = node.text || (node.children || []).join(' ')
-
-  if (node.tagName === 'li') {
-    str = `${figures.bullet} ${str}`
-  }
-
-  if (node.textTransform) {
-    str = node.textTransform(str || node.text)
-  }
-
-  return str
-}
+module.exports = hx(create)
